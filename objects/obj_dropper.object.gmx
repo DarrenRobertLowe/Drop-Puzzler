@@ -39,6 +39,8 @@ y = get_y_from_row(row);
 
 // create the first block
 alarm[1] = 1;
+
+destArrayIndex = 0;
 </string>
           </argument>
         </arguments>
@@ -122,7 +124,7 @@ var r = row;
 
 if  (playerBlock != -1) // is there a block ready to drop?
 {
-    if ( keyboard_check_released(vk_left) )
+    if ( keyboard_check_pressed(vk_left) )
     {
         var targetCol = (c - 1);
         if (targetCol &gt; -1)
@@ -142,7 +144,7 @@ if  (playerBlock != -1) // is there a block ready to drop?
         else targetCol = c;
     }
     
-    if ( keyboard_check_released(vk_right) )
+    if ( keyboard_check_pressed(vk_right) )
     {
         var targetCol = (c + 1);
         if (targetCol &lt; gridWidth)
@@ -164,7 +166,7 @@ if  (playerBlock != -1) // is there a block ready to drop?
     
     
     // drop a block
-    if ( keyboard_check_pressed(vk_down) )
+    if ( keyboard_check_released(vk_down) )
     {
         if  ( playerBlock != -1 )                    // is there a block ready to drop?
         and (ds_list_size(global.fallingList) == 0)
@@ -176,7 +178,7 @@ if  (playerBlock != -1) // is there a block ready to drop?
             {
                 // change sprite
                 image_index = 1;
-                alarm[2] = room_speed;
+                alarm[2] = room_speed;      // this should be animated instead
                 
                 // drop block
                 if ( exists(newBlock) )                 // if newBlock exists already
@@ -228,8 +230,10 @@ var preDepth = depth;
 
 // draw guide beam
 depth = 100;
+
 draw_set_blend_mode_ext(bm_src_alpha, bm_dest_color);
-/// MAKE THIS BEAM COLOUR THE COLOUR OF THE BRICK BEING DROPPED
+
+// MAKE THIS BEAM COLOUR THE COLOUR OF THE BRICK BEING DROPPED
 draw_set_color(c_white);
 draw_set_alpha(0.5);
 draw_rectangle(x,y,x+cellWidth,gridEndY,false);
